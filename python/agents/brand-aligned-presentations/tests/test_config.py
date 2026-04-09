@@ -1,0 +1,69 @@
+# Copyright 2026 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import importlib
+from unittest.mock import MagicMock, patch
+
+import pytest
+from pydantic_settings import BaseSettings
+
+import presentation_agent.shared_libraries.config as config_module
+
+
+def test_app_config_exception():
+    with patch.object(
+        BaseSettings, "__init__", side_effect=Exception("Test config failure")
+    ):
+        with pytest.raises(Exception, match="Test config failure"):
+            importlib.reload(config_module)
+
+
+def test_initialize_genai_client_success():
+    config_module._genai_client = None
+    with patch(
+        "presentation_agent.shared_libraries.config.genai.Client"
+    ) as mock_client:
+        mock_client.return_value = MagicMock()
+        client = config_module.initialize_genai_client()
+        assert client is not None
+        # Subsequent call should return the same client
+        assert config_module.initialize_genai_client() == client
+
+
+def test_initialize_genai_client_exception():
+    config_module._genai_client = None
+    with patch(
+        "presentation_agent.shared_libraries.config.genai.Client"
+    ) as mock_client:
+        mock_client.side_effect = Exception("Test client init failure")
+        client = config_module.initialize_genai_client()
+        assert client is None
+
+
+def test_get_gcs_client_success():
+    with patch(
+        "presentation_agent.shared_libraries.config.storage.Client"
+    ) as mock_client:
+        mock_client.return_value = MagicMock()
+        client = config_module.get_gcs_client()
+        assert client is not None
+
+
+def test_get_gcs_client_exception():
+    with patch(
+        "presentation_agent.shared_libraries.config.storage.Client"
+    ) as mock_client:
+        mock_client.side_effect = Exception("Test GCS client init failure")
+        client = config_module.get_gcs_client()
+        assert client is None
