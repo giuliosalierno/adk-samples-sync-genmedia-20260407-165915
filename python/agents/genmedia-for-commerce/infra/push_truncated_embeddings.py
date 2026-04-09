@@ -5,7 +5,7 @@ dimensions (128, 256, 512, 1024) as separate .npy files to the asset bucket
 under catalogue/.
 
 Usage:
-    uv run python deployment/push_truncated_embeddings.py
+    uv run python infra/push_truncated_embeddings.py
 """
 
 import io

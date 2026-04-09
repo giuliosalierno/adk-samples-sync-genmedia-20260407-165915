@@ -4,7 +4,7 @@
 # Usage:
 #   make sync-to-public
 #   # or directly:
-#   bash deployment/sync_to_public.sh [--dry-run]
+#   bash infra/sync_to_public.sh [--dry-run]
 #
 # What it does:
 #   1. Clones/updates the fork of google/adk-samples
@@ -97,8 +97,8 @@ _rsync -av --delete \
 
 _rsync -av --delete \
     $EXCLUDE_ARGS \
-    "$PROJECT_ROOT/deployment/" \
-    "$SYNC_DIR/$TARGET_DIR/deployment/"
+    "$PROJECT_ROOT/infra/" \
+    "$SYNC_DIR/$TARGET_DIR/infra/"
 
 _rsync -av --delete \
     $EXCLUDE_ARGS \

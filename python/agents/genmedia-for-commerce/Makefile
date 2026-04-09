@@ -164,11 +164,11 @@ mcp-server:
 
 # Fine-tune Gemini LoRA for shoe side classification
 train-shoe-model:
-	PYTHONPATH=$(PYTHONPATH) uv run python deployment/model_training/finetune_gemini_lora.py
+	PYTHONPATH=$(PYTHONPATH) uv run python infra/model_training/finetune_gemini_lora.py
 
 # Evaluate all shoe classifier endpoints and update config.env with the best one
 eval-set-shoe-model:
-	PYTHONPATH=$(PYTHONPATH) uv run python deployment/model_training/eval_gemini_lora.py
+	PYTHONPATH=$(PYTHONPATH) uv run python infra/model_training/eval_gemini_lora.py
 
 # ==============================================================================
 # Infrastructure (Terraform)
@@ -199,16 +199,16 @@ setup-infra: pull-assets
 	@source config.env && \
 		gcloud config set project $$PROJECT_ID --quiet && \
 		gcloud auth application-default set-quota-project $$PROJECT_ID
-	@$(TF_VARS) && cd deployment/terraform && terraform init && terraform apply
+	@$(TF_VARS) && cd infra/terraform && terraform init && terraform apply
 
 # Preview infrastructure changes
 tf-plan:
 	@echo "Planning Terraform changes..."
 	@if [ ! -f config.env ]; then echo "Error: config.env not found"; exit 1; fi
-	@$(TF_VARS) && cd deployment/terraform && terraform plan
+	@$(TF_VARS) && cd infra/terraform && terraform plan
 
 # Destroy infrastructure
 tf-destroy:
 	@echo "Destroying Terraform resources..."
 	@if [ ! -f config.env ]; then echo "Error: config.env not found"; exit 1; fi
-	@$(TF_VARS) && cd deployment/terraform && terraform destroy
+	@$(TF_VARS) && cd infra/terraform && terraform destroy
