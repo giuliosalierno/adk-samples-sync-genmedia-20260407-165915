@@ -11,16 +11,16 @@ requires-python = ">=3.12"
 
 dependencies = [
     "python-dotenv>=1.0.1",
-    "google-adk>=1.14",
+    "google-adk>=1.29.0",
     "immutabledict>=4.2.1",
-    "sqlglot>=26.10.1",
+    "sqlglot>=30.4.2",
     "db-dtypes>=1.4.2",
-    "regex>=2024.11.6",
+    "regex>=2026.4.4",
     "tabulate>=0.9.0",
-    "google-cloud-aiplatform[adk,agent-engines]>=1.93.0",
+    "google-cloud-aiplatform[adk,agent-engines]>=1.147.0",
     "absl-py>=2.2.2",
     "pydantic>=2.11.3",
-    "pandas>=2.3.0",
+    "pandas>=3.0.2",
     "numpy>=2.3.1",
     "toolbox-core>=0.3.0",
     "opentelemetry-sdk>=1.36.0",
@@ -30,11 +30,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "google-cloud-aiplatform[adk,agent-engines,evaluation]>=1.93.0",
-    "pytest>=8.3.5",
+    "google-cloud-aiplatform[adk,agent-engines,evaluation]>=1.147.0",
+    "pytest>=9.0.3",
     "pytest-asyncio>=0.26.0",
-    "google-adk[eval]>=1.14",
-    "ruff>=0.4.6",
+    "google-adk[eval]>=1.29.0",
+    "ruff>=0.15.10",
 ]
 
 [tool.ruff]
